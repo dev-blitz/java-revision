@@ -1,10 +1,31 @@
 package com.blitz.java_revision.demo;
 
 import java.util.Arrays;
-
-import javax.print.attribute.standard.MediaSize.NA;
+import java.util.Stack;
 
 public class Sandbox {
+  private static boolean validParenthesis(String str) {
+    Stack<Character> stack = new Stack<>();
+
+    for (char c : str.toCharArray()) {
+      if (c == '(' || c == '[' || c == '{') {
+        stack.push(c);
+      } else {
+        if (stack.isEmpty()) {
+          return false;
+        }
+
+        char top = stack.pop();
+        if ((c == ')' && top != '(') ||
+            (c == ']' && top != '[') ||
+            (c == '}' && top != '{')) {
+          return false;
+        }
+      }
+    }
+    return stack.isEmpty();
+  }
+
   private static int needleInHaystack(String haystack, String needle) {
     char[] hArr = haystack.toCharArray();
     char[] nArr = needle.toCharArray();
@@ -75,5 +96,11 @@ public class Sandbox {
     System.out.println("sliding-window: " + Arrays.toString(slidingWindow(new int[]{1,3,-1,-3,5,3,6,7}, 3)));
     System.out.println("maximum-sub-array: " + maximumSubarray(new int[] {-2,1,-3,4,-1,2,1,-5,4}));
     System.out.println("needle in haystack: " + needleInHaystack("itoldsadbuttrue", "sad"));
+    String parenthesis = "(]";
+    System.out.println("valid-parenthesis for " + parenthesis + ": " + validParenthesis(parenthesis));
+    parenthesis = "{[)(]}";
+    System.out.println("valid-parenthesis for " + parenthesis + ": " + validParenthesis(parenthesis));
+    parenthesis = "{[()()]}";
+    System.out.println("valid-parenthesis for " + parenthesis + ": " + validParenthesis(parenthesis));
   }
 }
