@@ -24,4 +24,14 @@ public class Reverse {
 
     return sign * Integer.parseInt(String.valueOf(reverse));
   }
+
+  public static String reverseString(String str) {
+    char[] array = str.toCharArray();
+    char[] reverse = new char[array.length];
+
+    for (int i = 0; i < reverse.length; i++)
+      reverse[i] = array[array.length - 1 - i];
+
+    return String.valueOf(reverse);
+  }
 }
