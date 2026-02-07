@@ -24,5 +24,8 @@ public class Demo {
     System.out.println("sliding window maximum array: " + Arrays.toString(SlidingWindowMaximumArray.slidingWindowMaximumArray(nums, 3)));
     nums = new int[] {-2,1,-3,4,-1,2,1,-5,4};
     System.out.println("maximum sum sub-array: " + MaximumSubarray.maximumSumSubarray(nums));
+
+    System.out.println("Longest Substring Without Repeating Characters: " + (LongestSubstringWithoutRepeatingCharacters.longestSubstringWithoutRepeatingCharacters("abcabcbb")));
+    System.out.println("Longest Substring Without Repeating Characters: " + (LongestSubstringWithoutRepeatingCharacters.longestSubstringWithoutRepeatingCharacters("pwwkew")));
   }
 }

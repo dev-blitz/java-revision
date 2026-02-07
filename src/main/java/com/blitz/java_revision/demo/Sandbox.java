@@ -1,9 +1,27 @@
 package com.blitz.java_revision.demo;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Stack;
 
 public class Sandbox {
+  private static int longestSubstringWithoutRepeating(String s) {
+    int left = 0;
+    int max = 0;
+    Set<Character> set = new HashSet<Character>();
+    for (int i = 0; i < s.length(); i++) {
+      char c = s.charAt(i);
+      while (set.contains(c)) {
+        set.remove(s.charAt(left));
+        left++;
+      }
+      set.add(c);
+      max = max > i - left + 1 ? max : i - left + 1;
+    }
+    return max;
+  }
+
   private static boolean validParenthesis(String str) {
     Stack<Character> stack = new Stack<>();
 
@@ -102,5 +120,7 @@ public class Sandbox {
     System.out.println("valid-parenthesis for " + parenthesis + ": " + validParenthesis(parenthesis));
     parenthesis = "{[()()]}";
     System.out.println("valid-parenthesis for " + parenthesis + ": " + validParenthesis(parenthesis));
+    char[] cArr = new char[7];
+    System.out.println(Arrays.toString(cArr));
   }
 }
