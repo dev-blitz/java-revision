@@ -1,4 +1,4 @@
-package com.blitz.java_revision;
+package com.blitz.java_revision.leetcode.medium;
 
 public class NeedleInHaystack {
   public static int findFirstOccurance(String haystack, String needle) {

@@ -1,4 +1,4 @@
-package com.blitz.java_revision;
+package com.blitz.java_revision.leetcode.medium;
 
 public class Reverse {
   public static int reverseInt(int x) {

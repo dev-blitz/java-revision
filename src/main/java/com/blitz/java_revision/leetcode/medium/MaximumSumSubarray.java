@@ -1,6 +1,6 @@
-package com.blitz.java_revision;
+package com.blitz.java_revision.leetcode.medium;
 
-public class MaximumSubarray {
+public class MaximumSumSubarray {
   public static int maximumSumSubarray(int[] nums) {
     int currentSum = nums[0];
     int max = nums[0];

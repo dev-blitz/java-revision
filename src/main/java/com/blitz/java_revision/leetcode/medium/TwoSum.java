@@ -1,4 +1,4 @@
-package com.blitz.java_revision;
+package com.blitz.java_revision.leetcode.medium;
 
 public class TwoSum {
   public static int[] twoSum(int[] nums, int target) {

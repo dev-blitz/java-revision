@@ -1,4 +1,4 @@
-package com.blitz.java_revision;
+package com.blitz.java_revision.leetcode.medium;
 
 import java.util.stream.IntStream;
 
