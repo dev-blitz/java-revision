@@ -46,6 +46,6 @@ public class NodePointer {
 
   @Override
   public String toString() {
-    return "data: " + data;
+    return "node-data: " + data;
   }
 }
