@@ -1,5 +1,7 @@
 package com.blitz.java_revision.ds.stack;
 
+import com.blitz.java_revision.ds.exceptions.IncorrectDataStructureOperationException;
+
 public class Stack {
   private int size;
   private Node root, tail;
@@ -35,7 +37,7 @@ public class Stack {
 
   public int pop() {
     if (tail == null)
-      throw new RuntimeException("cannot pop, Stack is empty");
+      throw new IncorrectDataStructureOperationException(this.getClass().getName() + "cannot pop, Stack is empty");
     
     int deleted = tail.data;
     Node node = tail.next;
@@ -53,7 +55,7 @@ public class Stack {
   @Override
   public String toString() {
     if (size == 0) 
-      throw new RuntimeException("cannot print... Stack is Empty");
+      throw new IncorrectDataStructureOperationException(this.getClass().getName() + "cannot print... Stack is Empty");
     Node node = tail;
     StringBuilder sb = new StringBuilder();
     sb.append("START => ");
@@ -67,7 +69,7 @@ public class Stack {
 
   public void print() {
     if (size == 0) 
-      throw new RuntimeException("cannot print... Stack is Empty");
+      throw new IncorrectDataStructureOperationException(this.getClass().getName() + "cannot print... Stack is Empty");
     Node node = tail;
     System.out.print("START => ");
     while (node != root) {
@@ -79,25 +81,29 @@ public class Stack {
 
   public boolean insert(int data, int index) {
     if (index < 0)
-      throw new RuntimeException("cannot insert at the incorrect index");
-    if (index <= size)
-      return false;
+      throw new IncorrectDataStructureOperationException(this.getClass().getName() + "cannot insert at the incorrect index");
+    if (index == size) {
+      push(data);
+      return true;
+    }
 
     Node node = tail;
     for (int i = 1; i < index; i++)
       node = node.next;
     node.next = new Node(data, node.next);
+    size++;
     return true;
   }
 
   public boolean deleteAt(int index) {
     if (index < 0 || index >= size)
-      return false;
+      throw new IncorrectDataStructureOperationException(this.getClass().getName() + "cannot insert at the incorrect index");
 
     Node node = tail;
     for (int i = 1; i < index; i++)
       node = node.next;
     node.next = node.next.next;
+    size--;
     return true;
   }
 

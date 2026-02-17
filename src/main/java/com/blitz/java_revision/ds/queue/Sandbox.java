@@ -17,5 +17,13 @@ public class Sandbox {
     System.out.println(queue);
     System.out.println("root: " + queue.getRoot());
     System.out.println("tail: " + queue.getTail());
+    System.out.println(queue.insertAt(99, 1));
+    System.out.println("updated size: " + queue.getSize());
+    System.out.println("root: " + queue.getRoot());
+    System.out.println("tail: " + queue.getTail());
+    System.out.println(queue.deleteAt(2));
+    System.out.println(queue.deleteAt(99));
+    System.out.println(queue);
+    System.out.println(queue.insertAt(100, 9));
   }
 }

@@ -50,12 +50,8 @@ public class Queue {
     if (size <= 0)
       throw new IncorrectQueueOperationException("cannot poll from Empty Queue");    
 
-    NodePointer node = root;
-
-    while (node.getNext() != tail)
-      node = node.getNext();
-    
-    int deleted = node.getData();
+    int deleted = root.getData();
+    root = root.getNext();
     size--;
 
     return deleted;
@@ -65,6 +61,40 @@ public class Queue {
     if (size <= 0)
       throw new IncorrectQueueOperationException("nothing to peek");
     return tail.getData();
+  }
+  
+  public boolean insertAt(int data, int index) {
+    if (index == size) {
+      offer(data);
+      return true;
+    }
+
+    if (index < 0 || index > size)
+      throw new IncorrectQueueOperationException("cannot insert at incorrect index");
+
+    NodePointer node = root;
+    for (int i = 1; i < index; i++)
+      node = node.getNext();
+    node.setNext(new NodePointer(data, node.getNext()));
+    size++;
+    return true;
+  }
+
+  public int deleteAt(int index) {
+    if (index == 0)
+      return poll();
+
+    if (index > size)
+      throw new IncorrectQueueOperationException("cannot delete from incorrect index");
+
+    NodePointer node = root;
+    for (int i = 1; i < index; i++)
+      node = node.getNext();
+
+    int deleted = node.getNext().getData();
+    node.setNext(node.getNext().getNext());
+    size--;
+    return deleted;
   }
 
   private static class IncorrectQueueOperationException extends RuntimeException {
