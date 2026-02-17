@@ -37,7 +37,7 @@ public class Stack {
 
   public int pop() {
     if (tail == null)
-      throw new IncorrectDataStructureOperationException(this.getClass().getName() + " cannot pop, Stack is empty");
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + " cannot pop, Stack is empty");
     
     int deleted = tail.data;
     Node node = tail.next;
@@ -55,7 +55,7 @@ public class Stack {
   @Override
   public String toString() {
     if (size == 0) 
-      throw new IncorrectDataStructureOperationException(this.getClass().getName() + " cannot print... Stack is Empty");
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + " cannot print... Stack is Empty");
     Node node = tail;
     StringBuilder sb = new StringBuilder();
     sb.append("START => ");
@@ -69,7 +69,7 @@ public class Stack {
 
   public void print() {
     if (size == 0) 
-      throw new IncorrectDataStructureOperationException(this.getClass().getName() + " cannot print... Stack is Empty");
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + " cannot print... Stack is Empty");
     Node node = tail;
     System.out.print("START => ");
     while (node != root) {
@@ -81,7 +81,7 @@ public class Stack {
 
   public boolean insert(int data, int index) {
     if (index < 0)
-      throw new IncorrectDataStructureOperationException(this.getClass().getName() + " cannot insert at the incorrect index");
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + " cannot insert at the incorrect index");
     if (index == size) {
       push(data);
       return true;
@@ -97,7 +97,7 @@ public class Stack {
 
   public boolean deleteAt(int index) {
     if (index < 0 || index >= size)
-      throw new IncorrectDataStructureOperationException(this.getClass().getName() + " cannot insert at the incorrect index");
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + " cannot insert at the incorrect index");
 
     Node node = tail;
     for (int i = 1; i < index; i++)
