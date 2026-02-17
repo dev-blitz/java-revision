@@ -18,6 +18,7 @@ public class Sandbox {
     System.out.println("root: " + stack.getRoot());
     System.out.println("tail: " + stack.getTail());
     System.out.println(stack.insert(99, 1));
+    System.out.println(stack);
     System.out.println("updated size: " + stack.getSize());
     System.out.println("root: " + stack.getRoot());
     System.out.println("tail: " + stack.getTail());
