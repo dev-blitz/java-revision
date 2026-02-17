@@ -1,7 +1,5 @@
 package com.blitz.java_revision.ds.stack;
 
-import com.blitz.java_revision.ds.stack.*;
-
 public class Sandbox {
   public static void main(String[] args) {
     Stack stack = new Stack();
