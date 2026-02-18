@@ -62,9 +62,9 @@ public class Queue {
   }
 
   public int peek() {
-    if (size <= 0)
+    if (size <= 0 || root == null)
       throw new IncorrectQueueOperationException("nothing to peek");
-    return tail.getData();
+    return root.getData();
   }
   
   public boolean insertAt(int data, int index) {

@@ -49,7 +49,9 @@ public class Stack {
   }
 
   public int peek() {
-    return tail.data;
+    if (root == null || size < 0)
+      throw new IncorrectDataStructureOperationException("\n\t" + this.g      etClass().getName() + " cannot pop, Stack is empty");
+    return root.data;
   }
 
   @Override

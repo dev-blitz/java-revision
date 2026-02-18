@@ -100,7 +100,7 @@ public class SinglyLinkedList {
     NodePointer node = root;
     for (int i = 1; i < index; i++)
       node = node.getNext();
-    int deleted = node.getData();
+    int deleted = node.getNext().getData();
     node.setNext(node.getNext().getNext());
     size--;
     return deleted;
