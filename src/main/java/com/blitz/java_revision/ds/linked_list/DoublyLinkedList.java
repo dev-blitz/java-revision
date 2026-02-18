@@ -3,10 +3,16 @@ package com.blitz.java_revision.ds.linked_list;
 import com.blitz.java_revision.ds.exceptions.IncorrectDataStructureOperationException;
 import com.blitz.java_revision.ds.pointer.NodePointer;
 
-public class SinglyLinkedList extends LinkedList {
+public class DoublyLinkedList extends LinkedList {
   private int size;
   private NodePointer root;
   private NodePointer tail;
+
+  public DoublyLinkedList() {
+    size = 0;
+    root = null;
+    tail = null;
+  }
 
   @Override
   public String toString() {
@@ -20,18 +26,6 @@ public class SinglyLinkedList extends LinkedList {
     return sb.toString();
   }
 
-  public void addLast(int data) {
-    NodePointer node = new NodePointer(data);
-    if (root == null) {
-      root = node;
-      tail = node;
-    } else {
-      tail.setNext(node);
-      tail = node;
-    }
-    size++;
-  }
-
   public void addFirst(int data) {
     NodePointer node = new NodePointer(data);
     if (root == null) {
@@ -39,56 +33,68 @@ public class SinglyLinkedList extends LinkedList {
       tail = node;
     } else {
       node.setNext(root);
+      root.setPrevious(node);
       root = node;
     }
     size++;
   }
- 
+
+  public void addLast(int data) {
+    NodePointer node = new NodePointer(data);
+    if (tail == null) {
+      root = node;
+      tail = node;
+    } else {
+      tail.setNext(node);
+      node.setPrevious(tail);
+      tail = node;
+    }
+    size++;
+  }
+  
   @Override
   public void offer(int data) {
-     addLast(data);     
+    addLast(data);
   }
 
   @Override
   public void offerFirst(int data) {
-     addFirst(data);     
+    addFirst(data);
   }
 
   @Override
   public void offerLast(int data) {
-     addLast(data);     
+    addLast(data);
   }
 
   public int deleteFirst() {
     if (size <= 0 || root == null)
-      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + ": cannot delete at incorrect index");
-    int deleted = root.getData();
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + "=> nothing to delete");
+    NodePointer deleted = root;
     root = root.getNext();
+    root.setPrevious(null);
     size--;
-    return deleted;
+    return deleted.getData();
   }
 
   public int deleteLast() {
     if (size <= 0 || tail == null)
-      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + ": cannot delete at incorrect index");
-    NodePointer node = root;
-    int deleted = tail.getData();
-    while (node.getNext() != tail)
-      node = node.getNext();
-    tail = node;
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + "=> nothing to delete");
+    NodePointer deleted = tail;
+    tail = tail.getPrevious();
     tail.setNext(null);
     size--;
-    return deleted;
+    return deleted.getData();
   }
 
   @Override
   public int poll() {
-     return deleteFirst();
+    return deleteFirst();
   }
 
   @Override
   public int pollFirst() {
-    return poll();
+    return deleteFirst();
   }
 
   @Override
@@ -99,23 +105,23 @@ public class SinglyLinkedList extends LinkedList {
   @Override
   public boolean insertAt(int data, int index) {
     if (index == 0) {
-      addFirst(data);
-      return true;
-    }
-    
-    if (index == size) {
-      addLast(data);
+      offerFirst(data);
       return true;
     }
 
-    if (index > size)
-      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + ": cannot insert at incorrect index");
+    if (index == size) {
+      offerLast(data);
+      return true;
+    }
+
+    if (index < 0 || index > size) 
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + "=> incorrect index provided");
 
     NodePointer node = root;
     for (int i = 1; i < index; i++)
       node = node.getNext();
 
-    node.setNext(new NodePointer(data, node.getNext()));
+    node.setNext(new NodePointer(data, node.getNext(), node));
     size++;
     return true;
   }
@@ -123,17 +129,22 @@ public class SinglyLinkedList extends LinkedList {
   @Override
   public int deleteAt(int index) {
     if (index == 0)
-      return deleteFirst();
+      return pollFirst();
 
     if (index == size - 1)
-      return deleteLast();
+      return pollLast();
 
+    if (index < 0 || index >= size) 
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + "=> incorrect index provided");
+    
     NodePointer node = root;
     for (int i = 1; i < index; i++)
       node = node.getNext();
-    int deleted = node.getNext().getData();
+    NodePointer deleted = node.getNext();
     node.setNext(node.getNext().getNext());
+    node = node.getNext();
+    node.setPrevious(node.getPrevious().getPrevious());
     size--;
-    return deleted;
+    return deleted.getData();
   }
 }
