@@ -90,16 +90,16 @@ public abstract class LinkedListFactory implements LinkedList {
 
   protected void checkIndexForInsert(int index) {
     if (index < 0 || index > getSize())
-      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + ": IndexOutOfBound for Insert: index=" + getSize() + index + ", size=" + getSize());
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getSimpleName() + "=> IndexOutOfBound for Insert: index=" + index + ", size=" + getSize());
   }
 
   protected void checkIndexForDelete(int index) {
     if (index < 0 || index >= getSize())
-      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + ": IndexOutOfBound for Delete: index=" + getSize() + index + ", size=" + getSize());
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getSimpleName() + "=> IndexOutOfBound for Delete: index=" + index + ", size=" + getSize());
   }
 
   protected void checkEmpty() {
     if (getSize() == 0)
-      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getSimpleName() + ": empty list");
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getSimpleName() + "=> unsupported-operation: Delete (empty list)");
   }
 }
