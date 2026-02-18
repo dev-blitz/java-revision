@@ -6,6 +6,10 @@ public class Queue {
   private int size;
   private NodePointer root;
   private NodePointer tail;
+  
+  public Queue() {
+    size = 0;
+  }
 
   public int getSize() {
     return size;

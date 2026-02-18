@@ -40,7 +40,7 @@ public class NodePointer {
     return previous;
   }
 
-  public void setNodePointer(NodePointer previous) {
+  public void setPrevious(NodePointer previous) {
     this.previous = previous;
   }
 
