@@ -10,6 +10,12 @@ public interface LinkedList {
     offerLast(data);
   }
 
+  void pushFirst(int data);
+  void pushLast(int data);
+  default void push(int data) {
+    pushLast(data);
+  }
+
   int pollFirst();
   int pollLast();
   default int poll() {

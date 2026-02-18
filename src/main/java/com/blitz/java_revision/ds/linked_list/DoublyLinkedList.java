@@ -10,91 +10,76 @@ public class DoublyLinkedList extends LinkedListFactory {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("START => ");
-    if (super.getSize() > 0) {
-      NodePointer node = super.getRoot();
-      while (node != super.getTail()) {
-        sb.append(node.getData() + " => ");
-        node = node.getNext();
-      }
-      sb.append(super.getTail().getData());
-    }
-    sb.append("END");
-    return sb.toString();
+    return buildStringForward();
   }
 
-  public void addFirst(int data) {
+  @Override
+  public void pushFirst(int data) {
     NodePointer node = new NodePointer(data);
-    if (super.getRoot() == null) {
-      super.setRoot(node);
-      super.setTail(node);
+    if (getRoot() == null) {
+      setRoot(node);
+      setTail(node);
     } else {
-      node.setNext(super.getRoot());
-      super.getRoot().setPrevious(node);
-      super.setRoot(node);
+      node.setNext(getRoot());
+      getRoot().setPrevious(node);
+      setRoot(node);
     }
-    super.incrementSize();
+    incrementSize();
   }
 
-  public void addLast(int data) {
+  @Override
+  public void pushLast(int data) {
     NodePointer node = new NodePointer(data);
-    if (super.getTail() == null) {
-      super.setRoot(node);
-      super.setTail(node);
+    if (getTail() == null) {
+      setRoot(node);
+      setTail(node);
     } else {
-      super.getTail().setNext(node);
-      node.setPrevious(super.getTail());
-      super.setTail(node);
+      getTail().setNext(node);
+      node.setPrevious(getTail());
+      setTail(node);
     }
-    super.incrementSize();
+    incrementSize();
   }
   
   @Override
-  public void offer(int data) {
-    addLast(data);
-  }
-
-  @Override
   public void offerFirst(int data) {
-    addFirst(data);
+    pushFirst(data);
   }
 
   @Override
   public void offerLast(int data) {
-    addLast(data);
+    pushLast(data);
   }
 
   public int deleteFirst() {
-    if (super.getSize() <= 0 || super.getRoot() == null)
-      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + "=> nothing to delete");
+    checkEmpty();
 
-    NodePointer deleted = super.getRoot();
-    if (super.getSize() == 1) {
-      super.setRoot(null);
-      super.setTail(null);
-      super.decrementSize();
+    NodePointer deleted = getRoot();
+    if (getSize() == 1) {
+      setRoot(null);
+      setTail(null);
+      decrementSize();
       return deleted.getData();
     }
-    super.setRoot(super.getRoot().getNext());
-    super.getRoot().setPrevious(null);
-    super.decrementSize();
+    setRoot(getRoot().getNext());
+    getRoot().setPrevious(null);
+    decrementSize();
     return deleted.getData();
   }
 
   public int deleteLast() {
-    if (super.getSize() <= 0 || super.getTail() == null)
-      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + "=> nothing to delete");
+    checkEmpty();
 
-    NodePointer deleted = super.getTail();
-    if (super.getSize() == 1) {
-      super.setRoot(null);
-      super.setTail(null);
-      super.decrementSize();
+    NodePointer deleted = getTail();
+    if (getSize() == 1) {
+      setRoot(null);
+      setTail(null);
+      decrementSize();
       return deleted.getData();
     }
-    super.setTail(super.getTail().getPrevious());
-    super.getTail().setNext(null);
-    super.decrementSize();
+    setTail(getTail().getPrevious());
+    getTail().setNext(null);
+    decrementSize();
     return deleted.getData();
   }
 
@@ -120,15 +105,14 @@ public class DoublyLinkedList extends LinkedListFactory {
       return true;
     }
 
-    if (index == super.getSize()) {
+    if (index == getSize()) {
       offerLast(data);
       return true;
     }
 
-    if (index < 0 || index > super.getSize()) 
-      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + "=> incorrect index provided");
+    checkIndexForInsert(index);
 
-    NodePointer node = super.getRoot();
+    NodePointer node = getRoot();
     for (int i = 1; i < index; i++)
       node = node.getNext();
 
@@ -138,7 +122,7 @@ public class DoublyLinkedList extends LinkedListFactory {
       node = node.getNext().getNext();
       node.setPrevious(newNode);
     }
-    super.incrementSize();
+    incrementSize();
     return true;
   }
 
@@ -147,20 +131,19 @@ public class DoublyLinkedList extends LinkedListFactory {
     if (index == 0)
       return pollFirst();
 
-    if (index == super.getSize() - 1)
+    if (index == getSize() - 1)
       return pollLast();
 
-    if (index < 0 || index >= super.getSize()) 
-      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + "=> incorrect index provided");
+    checkIndexForDelete(index);
     
-    NodePointer node = super.getRoot();
+    NodePointer node = getRoot();
     for (int i = 1; i < index; i++)
       node = node.getNext();
     NodePointer deleted = node.getNext();
     node.setNext(node.getNext().getNext());
     node = node.getNext();
     node.setPrevious(node.getPrevious().getPrevious());
-    super.decrementSize();
+    decrementSize();
     return deleted.getData();
   }
 }

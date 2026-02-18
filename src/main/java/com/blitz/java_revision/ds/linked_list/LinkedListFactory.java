@@ -54,20 +54,52 @@ public abstract class LinkedListFactory implements LinkedList {
 
   @Override
   public int peekFirst() {
-    if (root == null)
-      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + "=> empty list");
+    ensureNotEmpty();
     return root.getData();
   }
 
   @Override
   public int peekLast() {
-    if (root == null)
-      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + "=> empty list");
+    ensureNotEmpty();
     return tail.getData();
   }
 
   @Override
   public String debug() {
-    return "root: " + tail + ", tail: " + tail;
+    return "root: " + root + ", tail: " + tail;
+  }
+
+  protected String buildStringForward() {
+    StringBuilder sb = new StringBuilder("START => ");
+    if (getSize() > 0) {
+      NodePointer node = getRoot();
+      while (node != getTail()) {
+        sb.append(node.getData() + " => ");
+        node = node.getNext();
+      }
+      sb.append(getTail().getData() + " => ");
+    }
+    sb.append("END");
+    return sb.toString();
+  }
+
+  protected void ensureNotEmpty() {
+    if (root == null)
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getSimpleName() + "=> list is empty");
+  }
+
+  protected void checkIndexForInsert(int index) {
+    if (index < 0 || index > getSize())
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + ": IndexOutOfBound for Insert: index=" + getSize() + index + ", size=" + getSize());
+  }
+
+  protected void checkIndexForDelete(int index) {
+    if (index < 0 || index >= getSize())
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + ": IndexOutOfBound for Delete: index=" + getSize() + index + ", size=" + getSize());
+  }
+
+  protected void checkEmpty() {
+    if (getSize() == 0)
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getSimpleName() + ": empty list");
   }
 }
