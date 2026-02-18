@@ -19,6 +19,18 @@ public abstract class LinkedList {
   public NodePointer getTail() {
     return tail;
   }
+  
+  protected void setSize(int size) {
+    this.size = size;
+  }
+
+  protected void setRoot(NodePointer root) {
+    this.root = root;
+  }
+
+  protected void setTail(NodePointer tail) {
+    this.tail = tail;
+  }
 
   public int peek() {
     if (size <= 0 || tail == null)
