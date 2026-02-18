@@ -95,6 +95,18 @@ public class Dequeue {
     return deleted;
   }
 
+  public int peek() {
+    return root.getData();
+  }
+
+  public int peekFirst() {
+    return peek();
+  }
+
+  public int peekLast() {
+    return tail.getData();
+  }
+
   public boolean insertAt(int data, int index) {
     if (index == size) {
       offerLast(data);
@@ -113,7 +125,7 @@ public class Dequeue {
     for (int i = 1; i < index; i++)
       node = node.getNext();
 
-    node.setNext(new NodePointer(data, node.getNext()));
+    node.setNext(new NodePointer(data, node.getNext(), node.getPrevious()));
     size++;
     return true;
   }
@@ -122,7 +134,7 @@ public class Dequeue {
     if (index == 0)
       return pollFirst();
     
-    if (index == size)
+    if (index == size - 1)
       return pollLast();
     
     if (index < 0 || index > size)

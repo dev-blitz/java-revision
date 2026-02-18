@@ -1,5 +1,6 @@
 package com.blitz.java_revision.ds.linked_list;
 
+import com.blitz.java_revision.ds.exceptions.IncorrectDataStructureOperationException;
 import com.blitz.java_revision.ds.pointer.NodePointer;
 
 public class SinglyLinkedList {
@@ -21,8 +22,14 @@ public class SinglyLinkedList {
 
   @Override
   public String toString() {
-    
-    return "";
+    StringBuilder sb = new StringBuilder("START => ");
+    NodePointer node = root;
+    while (node != tail) {
+      sb.append(node.getData() + " => ");
+      node = node.getNext();
+    }
+    sb.append(tail.getData() + " => END");
+    return sb.toString();
   }
 
   public void addLast(int data) {
@@ -30,7 +37,6 @@ public class SinglyLinkedList {
     if (root == null) {
       root = node;
       tail = node;
-      root.setNext(tail);
     } else {
       tail.setNext(node);
       tail = node;
@@ -43,7 +49,6 @@ public class SinglyLinkedList {
     if (root == null) {
       root = node;
       tail = node;
-      root.setNext(tail);
     } else {
       node.setNext(root);
       root = node;
@@ -52,8 +57,8 @@ public class SinglyLinkedList {
   }
 
   public int deleteFirst() {
-    if (size <= 0)
-      throw new IncorrectSinglyLinkedListOperation("nothing to delete");
+    if (size <= 0 || root == null)
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + ": cannot delete at incorrect index");
     int deleted = root.getData();
     root = root.getNext();
     size--;
@@ -61,8 +66,8 @@ public class SinglyLinkedList {
   }
 
   public int deleteLast() {
-    if (size <= 0)
-      throw new IncorrectSinglyLinkedListOperation("nothing to delete");
+    if (size <= 0 || tail == null)
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + ": cannot delete at incorrect index");
     NodePointer node = root;
     int deleted = tail.getData();
     while (node.getNext() != tail)
@@ -85,7 +90,7 @@ public class SinglyLinkedList {
     }
 
     if (index > size)
-      throw new IncorrectSinglyLinkedListOperation("cannot insert at incorrect index");
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + ": cannot insert at incorrect index");
 
     NodePointer node = root;
     for (int i = 1; i < index; i++)
@@ -97,18 +102,34 @@ public class SinglyLinkedList {
   }
 
   public int deleteAt(int index) {
+    if (index == 0)
+      return deleteFirst();
+
+    if (index == size - 1)
+      return deleteLast();
+
     NodePointer node = root;
     for (int i = 1; i < index; i++)
       node = node.getNext();
-    int deleted = node.getData();
+    int deleted = node.getNext().getData();
     node.setNext(node.getNext().getNext());
     size--;
     return deleted;
   }
 
-  private static class IncorrectSinglyLinkedListOperation extends RuntimeException {
-    public IncorrectSinglyLinkedListOperation(String message) {
-      super(message);
-    }
+  public int peek() {
+    if (size <= 0 || tail == null)
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + ": nothing to peek");
+    return tail.getData();
+  }
+
+  public int peekFirst() {
+    if (size <= 0 || root == null)
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + ": nothing to peek");
+    return root.getData();
+  }
+
+  public int peekLast() {
+    return peek();
   }
 }

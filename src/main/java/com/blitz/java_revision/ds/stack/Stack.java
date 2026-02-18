@@ -27,7 +27,6 @@ public class Stack {
     if (root == null) {
       root = node;
       tail = node;
-      tail.next = root;
     } else {
       node.next = tail;
       tail = node;
@@ -49,6 +48,8 @@ public class Stack {
   }
 
   public int peek() {
+    if (size <= 0 || tail == null)
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + ": cannot peek from empty queue");
     return tail.data;
   }
 
