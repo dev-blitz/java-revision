@@ -4,44 +4,49 @@ import com.blitz.java_revision.ds.exceptions.IncorrectDataStructureOperationExce
 import com.blitz.java_revision.ds.pointer.NodePointer;
 
 public class SinglyLinkedList extends LinkedList {
-  private int size;
-  private NodePointer root;
-  private NodePointer tail;
+  public SinglyLinkedList() {
+    super.setSize(0);
+    super.setRoot(null);
+    super.setTail(null);
+  }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder("START => ");
-    NodePointer node = root;
-    while (node != tail) {
-      sb.append(node.getData() + " => ");
-      node = node.getNext();
+    if (super.getSize() > 0) {
+      NodePointer node = super.getRoot();
+      while (node != super.getTail()) {
+        sb.append(node.getData() + " => ");
+        node = node.getNext();
+      }
+      sb.append(super.getTail().getData());
     }
-    sb.append(tail.getData() + " => END");
+    sb.append("END");
     return sb.toString();
   }
 
   public void addLast(int data) {
     NodePointer node = new NodePointer(data);
-    if (root == null) {
-      root = node;
-      tail = node;
+    if (super.getRoot() == null) {
+      super.setRoot(node);
+      super.setTail(node);
     } else {
-      tail.setNext(node);
-      tail = node;
+      super.getTail().setNext(node);
+      super.setTail(node);
     }
-    size++;
+    super.setSize(super.getSize() + 1);
   }
 
   public void addFirst(int data) {
     NodePointer node = new NodePointer(data);
-    if (root == null) {
-      root = node;
-      tail = node;
+    if (super.getRoot() == null) {
+      super.setRoot(node);
+      super.setTail(node);
     } else {
-      node.setNext(root);
-      root = node;
+      node.setNext(super.getRoot());
+      super.setRoot(node);
     }
-    size++;
+    super.setSize(super.getSize() + 1);
   }
  
   @Override
@@ -60,24 +65,36 @@ public class SinglyLinkedList extends LinkedList {
   }
 
   public int deleteFirst() {
-    if (size <= 0 || root == null)
+    if (super.getSize() <= 0 || super.getRoot() == null)
       throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + ": cannot delete at incorrect index");
-    int deleted = root.getData();
-    root = root.getNext();
-    size--;
-    return deleted;
+    NodePointer deleted = super.getRoot();
+    if (super.getSize() == 1) {
+      super.setRoot(null);
+      super.setTail(null);
+      super.setSize(super.getSize() - 1);
+      return deleted.getData();
+    }
+    super.setRoot(super.getRoot().getNext());
+    super.setSize(super.getSize() - 1);
+    return deleted.getData();
   }
 
   public int deleteLast() {
-    if (size <= 0 || tail == null)
+    if (super.getSize() <= 0 || super.getTail() == null)
       throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + ": cannot delete at incorrect index");
-    NodePointer node = root;
-    int deleted = tail.getData();
-    while (node.getNext() != tail)
+    NodePointer node = super.getRoot();
+    if (super.getSize() == 1) {
+      super.setRoot(null);
+      super.setTail(null);
+      super.setSize(super.getSize() - 1);
+      return node.getData();
+    }
+    int deleted = super.getTail().getData();
+    while (node.getNext() != super.getTail())
       node = node.getNext();
-    tail = node;
-    tail.setNext(null);
-    size--;
+    super.setTail(node);
+    super.getTail().setNext(null);
+    super.setSize(super.getSize() - 1);
     return deleted;
   }
 
@@ -103,37 +120,40 @@ public class SinglyLinkedList extends LinkedList {
       return true;
     }
     
-    if (index == size) {
+    if (index == super.getSize()) {
       addLast(data);
       return true;
     }
 
-    if (index > size)
+    if (index < 0 || index > super.getSize())
       throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + ": cannot insert at incorrect index");
 
-    NodePointer node = root;
+    NodePointer node = super.getRoot();
     for (int i = 1; i < index; i++)
       node = node.getNext();
 
     node.setNext(new NodePointer(data, node.getNext()));
-    size++;
+    super.setSize(super.getSize() + 1);
     return true;
   }
 
   @Override
   public int deleteAt(int index) {
+    if (index < 0 || index >= super.getSize())
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + ": cannot insert at incorrect index");
+
     if (index == 0)
       return deleteFirst();
 
-    if (index == size - 1)
+    if (index == super.getSize() - 1)
       return deleteLast();
 
-    NodePointer node = root;
+    NodePointer node = super.getRoot();
     for (int i = 1; i < index; i++)
       node = node.getNext();
     int deleted = node.getNext().getData();
     node.setNext(node.getNext().getNext());
-    size--;
+    super.setSize(super.getSize() - 1);
     return deleted;
   }
 }

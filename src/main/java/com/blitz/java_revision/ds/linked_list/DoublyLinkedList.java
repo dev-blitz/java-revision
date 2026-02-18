@@ -4,52 +4,51 @@ import com.blitz.java_revision.ds.exceptions.IncorrectDataStructureOperationExce
 import com.blitz.java_revision.ds.pointer.NodePointer;
 
 public class DoublyLinkedList extends LinkedList {
-  private int size;
-  private NodePointer root;
-  private NodePointer tail;
-
   public DoublyLinkedList() {
-    size = 0;
-    root = null;
-    tail = null;
+    super.setSize(0);
+    super.setRoot(null);
+    super.setTail(null);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder("START => ");
-    NodePointer node = root;
-    while (node != tail) {
-      sb.append(node.getData() + " => ");
-      node = node.getNext();
+    if (super.getSize() > 0) {
+      NodePointer node = super.getRoot();
+      while (node != super.getTail()) {
+        sb.append(node.getData() + " => ");
+        node = node.getNext();
+      }
+      sb.append(super.getTail().getData());
     }
-    sb.append(tail.getData() + " => END");
+    sb.append("END");
     return sb.toString();
   }
 
   public void addFirst(int data) {
     NodePointer node = new NodePointer(data);
-    if (root == null) {
-      root = node;
-      tail = node;
+    if (super.getRoot() == null) {
+      super.setRoot(node);
+      super.setTail(node);
     } else {
-      node.setNext(root);
-      root.setPrevious(node);
-      root = node;
+      node.setNext(super.getRoot());
+      super.getRoot().setPrevious(node);
+      super.setRoot(node);
     }
-    size++;
+    super.setSize(super.getSize() + 1);
   }
 
   public void addLast(int data) {
     NodePointer node = new NodePointer(data);
-    if (tail == null) {
-      root = node;
-      tail = node;
+    if (super.getTail() == null) {
+      super.setRoot(node);
+      super.setTail(node);
     } else {
-      tail.setNext(node);
-      node.setPrevious(tail);
-      tail = node;
+      super.getTail().setNext(node);
+      node.setPrevious(super.getTail());
+      super.setTail(node);
     }
-    size++;
+    super.setSize(super.getSize() + 1);
   }
   
   @Override
@@ -68,22 +67,36 @@ public class DoublyLinkedList extends LinkedList {
   }
 
   public int deleteFirst() {
-    if (size <= 0 || root == null)
+    if (super.getSize() <= 0 || super.getRoot() == null)
       throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + "=> nothing to delete");
-    NodePointer deleted = root;
-    root = root.getNext();
-    root.setPrevious(null);
-    size--;
+
+    NodePointer deleted = super.getRoot();
+    if (super.getSize() == 1) {
+      super.setRoot(null);
+      super.setTail(null);
+      super.setSize(super.getSize() - 1);
+      return deleted.getData();
+    }
+    super.setRoot(super.getRoot().getNext());
+    super.getRoot().setPrevious(null);
+    super.setSize(super.getSize() - 1);
     return deleted.getData();
   }
 
   public int deleteLast() {
-    if (size <= 0 || tail == null)
+    if (super.getSize() <= 0 || super.getTail() == null)
       throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + "=> nothing to delete");
-    NodePointer deleted = tail;
-    tail = tail.getPrevious();
-    tail.setNext(null);
-    size--;
+
+    NodePointer deleted = super.getTail();
+    if (super.getSize() == 1) {
+      super.setRoot(null);
+      super.setTail(null);
+      super.setSize(super.getSize() - 1);
+      return deleted.getData();
+    }
+    super.setTail(super.getTail().getPrevious());
+    super.getTail().setNext(null);
+    super.setSize(super.getSize() - 1);
     return deleted.getData();
   }
 
@@ -109,20 +122,25 @@ public class DoublyLinkedList extends LinkedList {
       return true;
     }
 
-    if (index == size) {
+    if (index == super.getSize()) {
       offerLast(data);
       return true;
     }
 
-    if (index < 0 || index > size) 
+    if (index < 0 || index > super.getSize()) 
       throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + "=> incorrect index provided");
 
-    NodePointer node = root;
+    NodePointer node = super.getRoot();
     for (int i = 1; i < index; i++)
       node = node.getNext();
 
-    node.setNext(new NodePointer(data, node.getNext(), node));
-    size++;
+    NodePointer newNode = new NodePointer(data, node.getNext(), node);
+    node.setNext(newNode);
+    if (newNode.getNext() != null) {
+      node = node.getNext().getNext();
+      node.setPrevious(newNode);
+    }
+    super.setSize(super.getSize() + 1);
     return true;
   }
 
@@ -131,20 +149,20 @@ public class DoublyLinkedList extends LinkedList {
     if (index == 0)
       return pollFirst();
 
-    if (index == size - 1)
+    if (index == super.getSize() - 1)
       return pollLast();
 
-    if (index < 0 || index >= size) 
+    if (index < 0 || index >= super.getSize()) 
       throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + "=> incorrect index provided");
     
-    NodePointer node = root;
+    NodePointer node = super.getRoot();
     for (int i = 1; i < index; i++)
       node = node.getNext();
     NodePointer deleted = node.getNext();
     node.setNext(node.getNext().getNext());
     node = node.getNext();
     node.setPrevious(node.getPrevious().getPrevious());
-    size--;
+    super.setSize(super.getSize() - 1);
     return deleted.getData();
   }
 }
