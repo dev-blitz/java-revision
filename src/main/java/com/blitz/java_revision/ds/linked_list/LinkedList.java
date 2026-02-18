@@ -1,59 +1,29 @@
 package com.blitz.java_revision.ds.linked_list;
 
-import com.blitz.java_revision.ds.pointer.NodePointer;
-import com.blitz.java_revision.ds.exceptions.IncorrectDataStructureOperationException;
+public interface LinkedList {
+  int size();
+  boolean isEmpty();
 
-public abstract class LinkedList {
-  private int size;
-  private NodePointer root;
-  private NodePointer tail;
-  
-  public int getSize() {
-    return size;
+  void offerFirst(int data);
+  void offerLast(int data);
+  default void offer(int data) {
+    offerLast(data);
   }
 
-  public NodePointer getRoot() {
-    return root;
+  int pollFirst();
+  int pollLast();
+  default int poll() {
+    return pollFirst();
   }
 
-  public NodePointer getTail() {
-    return tail;
-  }
-  
-  protected void setSize(int size) {
-    this.size = size;
+  int peekFirst();
+  int peekLast();
+  default int peek() {
+    return peekFirst();
   }
 
-  protected void setRoot(NodePointer root) {
-    this.root = root;
-  }
+  boolean insertAt(int data, int index);
+  int deleteAt(int index);
 
-  protected void setTail(NodePointer tail) {
-    this.tail = tail;
-  }
-
-  public int peek() {
-    if (size <= 0 || tail == null)
-      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + ": nothing to peek");
-    return tail.getData();
-  }
-
-  public int peekFirst() {
-    if (size <= 0 || root == null)
-      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + ": nothing to peek");
-    return root.getData();
-  }
-
-  public int peekLast() {
-    return peek();
-  }
-
-  public abstract void offer(int data);
-  public abstract void offerFirst(int data);
-  public abstract void offerLast(int data);
-  public abstract int poll();
-  public abstract int pollFirst();
-  public abstract int pollLast();
-  public abstract boolean insertAt(int data, int index);
-  public abstract int deleteAt(int index);
+  String debug();
 }

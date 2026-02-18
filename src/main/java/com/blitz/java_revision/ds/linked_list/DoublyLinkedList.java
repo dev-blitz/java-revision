@@ -3,11 +3,9 @@ package com.blitz.java_revision.ds.linked_list;
 import com.blitz.java_revision.ds.exceptions.IncorrectDataStructureOperationException;
 import com.blitz.java_revision.ds.pointer.NodePointer;
 
-public class DoublyLinkedList extends LinkedList {
+public class DoublyLinkedList extends LinkedListFactory {
   public DoublyLinkedList() {
-    super.setSize(0);
-    super.setRoot(null);
-    super.setTail(null);
+    super();
   }
 
   @Override
@@ -35,7 +33,7 @@ public class DoublyLinkedList extends LinkedList {
       super.getRoot().setPrevious(node);
       super.setRoot(node);
     }
-    super.setSize(super.getSize() + 1);
+    super.incrementSize();
   }
 
   public void addLast(int data) {
@@ -48,7 +46,7 @@ public class DoublyLinkedList extends LinkedList {
       node.setPrevious(super.getTail());
       super.setTail(node);
     }
-    super.setSize(super.getSize() + 1);
+    super.incrementSize();
   }
   
   @Override
@@ -74,12 +72,12 @@ public class DoublyLinkedList extends LinkedList {
     if (super.getSize() == 1) {
       super.setRoot(null);
       super.setTail(null);
-      super.setSize(super.getSize() - 1);
+      super.decrementSize();
       return deleted.getData();
     }
     super.setRoot(super.getRoot().getNext());
     super.getRoot().setPrevious(null);
-    super.setSize(super.getSize() - 1);
+    super.decrementSize();
     return deleted.getData();
   }
 
@@ -91,12 +89,12 @@ public class DoublyLinkedList extends LinkedList {
     if (super.getSize() == 1) {
       super.setRoot(null);
       super.setTail(null);
-      super.setSize(super.getSize() - 1);
+      super.decrementSize();
       return deleted.getData();
     }
     super.setTail(super.getTail().getPrevious());
     super.getTail().setNext(null);
-    super.setSize(super.getSize() - 1);
+    super.decrementSize();
     return deleted.getData();
   }
 
@@ -140,7 +138,7 @@ public class DoublyLinkedList extends LinkedList {
       node = node.getNext().getNext();
       node.setPrevious(newNode);
     }
-    super.setSize(super.getSize() + 1);
+    super.incrementSize();
     return true;
   }
 
@@ -162,7 +160,7 @@ public class DoublyLinkedList extends LinkedList {
     node.setNext(node.getNext().getNext());
     node = node.getNext();
     node.setPrevious(node.getPrevious().getPrevious());
-    super.setSize(super.getSize() - 1);
+    super.decrementSize();
     return deleted.getData();
   }
 }

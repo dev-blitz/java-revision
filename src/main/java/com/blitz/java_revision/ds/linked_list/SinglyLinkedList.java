@@ -3,11 +3,9 @@ package com.blitz.java_revision.ds.linked_list;
 import com.blitz.java_revision.ds.exceptions.IncorrectDataStructureOperationException;
 import com.blitz.java_revision.ds.pointer.NodePointer;
 
-public class SinglyLinkedList extends LinkedList {
+public class SinglyLinkedList extends LinkedListFactory {
   public SinglyLinkedList() {
-    super.setSize(0);
-    super.setRoot(null);
-    super.setTail(null);
+    super();
   }
 
   @Override
@@ -34,7 +32,7 @@ public class SinglyLinkedList extends LinkedList {
       super.getTail().setNext(node);
       super.setTail(node);
     }
-    super.setSize(super.getSize() + 1);
+    super.incrementSize();
   }
 
   public void addFirst(int data) {
@@ -46,7 +44,7 @@ public class SinglyLinkedList extends LinkedList {
       node.setNext(super.getRoot());
       super.setRoot(node);
     }
-    super.setSize(super.getSize() + 1);
+    super.incrementSize();
   }
  
   @Override
@@ -71,11 +69,11 @@ public class SinglyLinkedList extends LinkedList {
     if (super.getSize() == 1) {
       super.setRoot(null);
       super.setTail(null);
-      super.setSize(super.getSize() - 1);
+      super.decrementSize();
       return deleted.getData();
     }
     super.setRoot(super.getRoot().getNext());
-    super.setSize(super.getSize() - 1);
+    super.decrementSize();
     return deleted.getData();
   }
 
@@ -86,7 +84,7 @@ public class SinglyLinkedList extends LinkedList {
     if (super.getSize() == 1) {
       super.setRoot(null);
       super.setTail(null);
-      super.setSize(super.getSize() - 1);
+      super.decrementSize();
       return node.getData();
     }
     int deleted = super.getTail().getData();
@@ -94,7 +92,7 @@ public class SinglyLinkedList extends LinkedList {
       node = node.getNext();
     super.setTail(node);
     super.getTail().setNext(null);
-    super.setSize(super.getSize() - 1);
+    super.decrementSize();
     return deleted;
   }
 
@@ -133,7 +131,7 @@ public class SinglyLinkedList extends LinkedList {
       node = node.getNext();
 
     node.setNext(new NodePointer(data, node.getNext()));
-    super.setSize(super.getSize() + 1);
+    super.incrementSize();
     return true;
   }
 
@@ -153,7 +151,7 @@ public class SinglyLinkedList extends LinkedList {
       node = node.getNext();
     int deleted = node.getNext().getData();
     node.setNext(node.getNext().getNext());
-    super.setSize(super.getSize() - 1);
+    super.decrementSize();
     return deleted;
   }
 }
