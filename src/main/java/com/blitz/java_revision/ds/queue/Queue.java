@@ -1,6 +1,7 @@
 package com.blitz.java_revision.ds.queue;
 
-import com.blitz.java_revision.ds.pointer.*;
+import com.blitz.java_revision.ds.pointer.NodePointer;
+import com.blitz.java_revision.ds.exceptions.IncorrectDataStructureOperationException;
 
 public class Queue {
   private int size;
@@ -26,7 +27,7 @@ public class Queue {
   @Override
   public String toString() {
     if (size <= 0)
-      throw new IncorrectQueueOperationException("nothing to print");
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + " nothing to print");
     NodePointer node = root;
     StringBuilder sb = new StringBuilder("START => ");
     while (node != tail) {
@@ -42,7 +43,6 @@ public class Queue {
     if (root == null) {
       root = node;
       tail = node;
-      root.setNext(tail);
     } else {
       tail.setNext(node);
       tail = node;
@@ -52,7 +52,7 @@ public class Queue {
 
   public int poll() {
     if (size <= 0)
-      throw new IncorrectQueueOperationException("cannot poll from Empty Queue");    
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + " cannot poll from Empty Queue");    
 
     int deleted = root.getData();
     root = root.getNext();
@@ -62,9 +62,9 @@ public class Queue {
   }
 
   public int peek() {
-    if (size <= 0)
-      throw new IncorrectQueueOperationException("nothing to peek");
-    return tail.getData();
+    if (size <= 0 || root == null)
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + " nothing to peek");
+    return root.getData();
   }
   
   public boolean insertAt(int data, int index) {
@@ -74,7 +74,7 @@ public class Queue {
     }
 
     if (index < 0 || index > size)
-      throw new IncorrectQueueOperationException("cannot insert at incorrect index");
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + " cannot insert at incorrect index");
 
     NodePointer node = root;
     for (int i = 1; i < index; i++)
@@ -88,8 +88,8 @@ public class Queue {
     if (index == 0)
       return poll();
 
-    if (index > size)
-      throw new IncorrectQueueOperationException("cannot delete from incorrect index");
+    if (index >= size)
+      throw new IncorrectDataStructureOperationException("\n\t" + this.getClass().getName() + " cannot delete from incorrect index");
 
     NodePointer node = root;
     for (int i = 1; i < index; i++)
@@ -99,11 +99,5 @@ public class Queue {
     node.setNext(node.getNext().getNext());
     size--;
     return deleted;
-  }
-
-  private static class IncorrectQueueOperationException extends RuntimeException {
-    public IncorrectQueueOperationException(String message) {
-      super(message);
-    }
   }
 }
