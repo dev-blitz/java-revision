@@ -16,8 +16,7 @@ public class TwoSum {
    * Finds two indices such that the values at those indices sum to the target.
    * * @param array  The input array of integers.
    * @param target The integer value to reach.
-   * @return An array containing the two indices, or {@code [-1, -1]} if 
-   * no solution exists.
+   * @return An array containing the two indices, or {@code [-1, -1]} if no solution is found.
    */
   public static int[] twoSum(int[] array, int target) {
     Map<Integer, Integer> map = new HashMap<>();
