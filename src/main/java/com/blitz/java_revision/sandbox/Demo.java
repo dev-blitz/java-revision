@@ -1,4 +1,4 @@
-package com.blitz.java_revision.code_demo;
+package com.blitz.java_revision.sandbox;
 
 import com.blitz.java_revision.leetcode.medium.*;
 import com.blitz.java_revision.leetcode.easy.*;
